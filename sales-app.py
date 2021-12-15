@@ -23,7 +23,7 @@ df_selected_channel = df[(df['Channel'].isin(selected_channel))]
 df_selected_month = df[(df['Month-Year'].isin(selected_month))]
 st.header('Display Data in Selected Channel')
 st.write('Data Dimension: ' + str(df_selected_channel.shape[0]) + ' rows and ' + str(df_selected_channel.shape[1]) + ' columns.')
-st.dataframe(df_selected_channel.style.highlight_max(axis=0,color='purple'))
+st.dataframe(df_selected_channel)
 
 def filedownload(df):
     csv = df.to_csv(index=False)
