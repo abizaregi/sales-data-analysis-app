@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import base64
 from datetime import datetime
 from wordcloud import WordCloud
+import pickle
 
 st.title('Sales Data Analysis - Application')
 
@@ -94,3 +95,23 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 Price_Total = df_selected.groupby('Order Date').sum()['Price Total'].sort_values(ascending=False)
 Price_Total = pd.DataFrame(Price_Total)
 st.dataframe(Price_Total)
+
+pickle_in = open("ML-LinearRegression.pkl", 'rb')
+model = pickle.load(pickle_in)
+
+st.write(model.summary())
+x = df.drop('Price Total', axis=1)
+y = df['Price Total']
+x_train, x_test, y_train, y_test = train_test_split(x, y)
+
+st.write('''###Data Prediksi vs Data Actual###''')
+plt.figure(figsize=(10,8))
+plt.plot(model.predict(x_test), label='Prediction')
+plt.plot(y_test, label='Actual')
+plt.legend()
+plt.grid()
+plt.xlabel('Time')
+plt.ylabel('Revenue ($)')
+plt.show()
+st.pyplot()
+
