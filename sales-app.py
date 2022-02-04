@@ -77,12 +77,10 @@ Qty = pd.DataFrame(Qty)
 st.dataframe(Qty)
 
 df = pd.read_csv('Sales Harian 2019.csv', sep=",")
-st.dataframe(df)
-
 st.write('''
 Revenue per Days''')
 plt.figure(figsize=(10, 8))
-df['Price Total'].plot()
+df_selected['Price Total'].plot()
 plt.ylabel('Revenue ($)')
 plt.grid()
 plt.show()
