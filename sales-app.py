@@ -9,6 +9,10 @@ import pickle
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression, Lasso, Ridge
 from sklearn.metrics import mean_absolute_error, mean_squared_error
+import h5py
+
+filename = "Sales-Data-Prediction.h5"
+model = h5py.File(filename,'r')
 
 st.title('Sales Data Analysis - Application')
 
@@ -99,8 +103,6 @@ Price_Total = df_selected.groupby('Order Date').sum()['Price Total'].sort_values
 Price_Total = pd.DataFrame(Price_Total)
 st.dataframe(Price_Total)
 
-pickle_in = open('sales-data-predic.pkl', 'rb')
-model = pickle.load(pickle_in)
 x = df.drop('Price Total', axis=1)
 y = df['Price Total']
 x_train, x_test, y_train, y_test = train_test_split(x, y)
