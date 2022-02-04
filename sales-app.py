@@ -10,6 +10,7 @@ import pickle
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression, Lasso, Ridge
 from sklearn.metrics import mean_absolute_error, mean_squared_error
+from tensorflow import keras
 
 pickle_in = open('lr-model.pkl', 'rb')
 model = pickle.load(pickle_in)
