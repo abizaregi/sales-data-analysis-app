@@ -43,7 +43,7 @@ plt.axis('off')
 plt.show()
 st.pyplot()
 
-df_sales = df_selcted.groupby('Product').sum()[['Quantity Ordered', 'Price Total']]
+df_sales = df_selected.groupby('Product').sum()[['Quantity Ordered', 'Price Total']]
 st.dataframe(df_sales.sort_values(by=['Price Total'], ascending=False).head())
 
 df_month_year = df_selected.groupby('Month-Year').sum()[['Quantity Ordered', 'Price Total']]
@@ -80,3 +80,5 @@ plt.ylabel('Pendapatan ($)')
 plt.grid()
 plt.show()
 st.pyplot()
+
+st.set_option('deprecation.showPyplotGlobalUse', False)
