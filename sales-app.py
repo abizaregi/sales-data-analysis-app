@@ -14,7 +14,7 @@ from tensorflow import keras
 st.title('Sales Data Analysis - Application')
 
 st.write("""
-***App to view sales data per Channel and per Month-Year***
+***Application to view performance sales and revenue prediction***
 """)
 st.balloons()
 st.sidebar.header("**User Input Features**")
