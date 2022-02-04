@@ -68,6 +68,11 @@ df_city = df_selected.groupby('Purchase Address City').sum()[['Quantity Ordered'
 df_city['Top 3 Product'] = list(map(cityProduct, df_city.index))
 st.dataframe(df_city.head())
 
+plot_price = df_selected.groupby('Purchase Address City').sum()['Price Total'].sort_values(ascending=False)
+st.bar_chart(plot_price)
+plot_qty = df_selected.groupby('Purchase Address City').sum()['Quantity Ordered'].sort_values(ascending=False)
+st.bar_chart(plot_qty)
+
 Qty = df_selected.groupby('Product').sum()['Quantity Ordered'].sort_values(ascending=False).head()
 Qty = pd.DataFrame(Qty)
 st.dataframe(Qty)
