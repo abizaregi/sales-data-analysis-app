@@ -98,8 +98,6 @@ st.dataframe(Price_Total)
 
 pickle_in = open("ML-LinearRegression.pkl", 'rb')
 model = pickle.load(pickle_in)
-
-st.dataframe(model.summary())
 x = df.drop('Price Total', axis=1)
 y = df['Price Total']
 x_train, x_test, y_train, y_test = train_test_split(x, y)
