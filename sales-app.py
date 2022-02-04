@@ -121,7 +121,7 @@ test_data = df['Price Total'].iloc[250:]
 
 x_train, y_train = split_sequence(train_data)
 x_test, y_test = split_sequence(test_data)
-df_test = pd.to_dataframe(x_test)
+df_test = pd.DataFrame(x_test)
 st.dataframe(df_test)
 model = keras.Sequential([
     keras.layers.LSTM(64, input_shape=(3,1,), activation='relu', return_sequences=True),
