@@ -9,10 +9,9 @@ import pickle
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression, Lasso, Ridge
 from sklearn.metrics import mean_absolute_error, mean_squared_error
-import h5py
 
-filename = "Sales-Data-Prediction.h5"
-model = h5py.File(filename,'r')
+pickle_in = open("Sales-Data-Prediction.h5", 'rb')
+model = pickle.load(pickle_in)
 
 st.title('Sales Data Analysis - Application')
 
