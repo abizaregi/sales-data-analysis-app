@@ -15,13 +15,11 @@ st.sidebar.header("**User Input Features**")
 df = pd.read_csv('df-sales.csv', sep=";")
 
 # Sidebar
-sorted_channel_unique = sorted(df['Channel'].unique())
 sorted_month_unique = sorted(df['Month-Year'].unique())
-selected_channel = st.sidebar.multiselect('Channel', sorted_channel_unique, sorted_channel_unique)
 selected_month = st.sidebar.multiselect('Month-Year', sorted_month_unique, sorted_month_unique)
 
 # Filtering data
-df_selected = df[(df['Channel'].isin(selected_channel)) & (df['Month-Year'].isin(selected_month))]
+df_selected = df[df['Month-Year'].isin(selected_month)]
 st.header('Display Data Selected in Sidebar')
 st.write('Data Shape: ' + str(df_selected.shape[0]) + ' rows and ' + str(df_selected.shape[1]) + ' columns.')
 st.dataframe(df_selected)
