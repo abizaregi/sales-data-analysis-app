@@ -138,7 +138,9 @@ plt.grid()
 plt.show()
 st.pyplot()
 
-st.write('''###Data Prediksi vs Data Actual###''')
+st.write("""
+#### Prediction vs Actual ###
+""")
 plt.figure(figsize=(10,8))
 plt.plot(model.predict(x_test), label='Prediction')
 plt.plot(y_test, label='Actual')
@@ -163,8 +165,9 @@ def predict_future(shift_count):
     return array
 
 future_prediction = predict_future(30)
-
-st.write('''###Prediksi Pendapatan dalam 30 hari ke depan###''')
+st.write("""
+#### Revenue Prediction in 30 Days Later ###
+""")
 plt.figure(figsize=(10,5))
 plt.plot(np.arange(29,60), future_prediction[-31:], '--', label='Prediction')
 plt.plot(np.arange(30), df['Price Total'][-30:], label='Actual')
