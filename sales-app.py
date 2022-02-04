@@ -6,6 +6,9 @@ import base64
 from datetime import datetime
 from wordcloud import WordCloud
 import pickle
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression, Lasso, Ridge
+from sklearn.metrics import mean_absolute_error, mean_squared_error
 
 st.title('Sales Data Analysis - Application')
 
@@ -110,6 +113,30 @@ plt.legend()
 plt.grid()
 plt.xlabel('Time')
 plt.ylabel('Revenue ($)')
+plt.show()
+st.pyplot()
+
+def predict_future(shift_count):
+    def reshape(three):
+        return np.array(three).reshape(1,3,1)
+    array = list(df['Price Total']) + []
+    now = len(df['Price Total'])-3
+    last = len(df['Price Total'])
+    for _ in range(shift_count):
+        converted = reshape(array[now:last])
+        array.append(model.predict(converted)[0][0])
+        now += 1
+        last += 1
+    return array
+
+future_prediction = predict_future(30)
+
+st.write('''###Prediksi Pendapatan dalam 30 hari ke depan###''')
+plt.figure(figsize=(10,5))
+plt.plot(np.arange(29,60), future_prediction[-31:], '--', label='Prediction')
+plt.plot(np.arange(30), df['Price Total'][-30:], label='Actual')
+plt.grid()
+plt.legend()
 plt.show()
 st.pyplot()
 
