@@ -99,7 +99,7 @@ Price_Total = df_selected.groupby('Order Date').sum()['Price Total'].sort_values
 Price_Total = pd.DataFrame(Price_Total)
 st.dataframe(Price_Total)
 
-pickle_in = open("ML-LinearRegression.pkl", 'rb')
+pickle_in = open('sales-data-predic.pkl', 'rb')
 model = pickle.load(pickle_in)
 x = df.drop('Price Total', axis=1)
 y = df['Price Total']
