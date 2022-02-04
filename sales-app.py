@@ -129,7 +129,7 @@ model = keras.Sequential([
 ])
 
 model.compile(loss='mse', optimizer='adam')
-
+st.write(model.summary())
 st.write('''###Data Prediksi vs Data Actual###''')
 plt.figure(figsize=(10,8))
 plt.plot(model.predict(x_test), label='Prediction')
