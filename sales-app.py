@@ -122,9 +122,6 @@ test_data = df['Price Total'].iloc[250:]
 x_train, y_train = split_sequence(train_data)
 x_test, y_test = split_sequence(test_data)
 
-df_test = df.groupby('Order Date').sum()['x_test'].sort_values(ascending=False).head()
-df_test = pd.DataFrame(x_test)
-st.dataframe(df_test)
 model = keras.Sequential([
     keras.layers.LSTM(64, input_shape=(3,1,), activation='relu', return_sequences=True),
     keras.layers.LSTM(64, activation='relu'),
@@ -132,7 +129,15 @@ model = keras.Sequential([
 ])
 
 model.compile(loss='mse', optimizer='adam')
-st.dataframe(model.summary())
+stoping = keras.callbacks.EarlyStopping(monitor='loss', patience=3)
+history = model.fit(x_train, y_train, epochs=100, batch_size=32, callbacks=[stoping], verbose=2)
+plt.plot(history.history['loss'], marker='.')
+plt.xlabel('Epochs')
+plt.ylabel('Error (MSE)')
+plt.grid()
+plt.show()
+st.pyplot()
+
 st.write('''###Data Prediksi vs Data Actual###''')
 plt.figure(figsize=(10,8))
 plt.plot(model.predict(x_test), label='Prediction')
