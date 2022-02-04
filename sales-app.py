@@ -11,7 +11,7 @@ st.title('Sales Data Analysis - Application')
 st.write("""
 ***App to view sales data per Channel and per Month-Year***
 """)
-
+st.balloons()
 st.sidebar.header("**User Input Features**")
 df = pd.read_csv('df-sales.csv', sep=";")
 
@@ -79,7 +79,9 @@ Qty = df_selected.groupby('Product').sum()['Quantity Ordered'].sort_values(ascen
 Qty = pd.DataFrame(Qty)
 st.dataframe(Qty)
 
-st.write('''###Revenue per Days###''')
+st.write("""
+#### Revenue per Days ###
+""")
 df = pd.read_csv('Sales Harian 2019.csv', sep=",")
 plt.figure(figsize=(10, 8))
 df['Price Total'].plot()
