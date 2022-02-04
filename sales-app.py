@@ -81,7 +81,7 @@ st.dataframe(Qty)
 
 df = pd.read_csv('Sales Harian 2019.csv', sep=",")
 st.write(''' ###
-Revenue per Days''')
+Revenue per Days ###''')
 plt.figure(figsize=(10, 8))
 df['Price Total'].plot()
 plt.ylabel('Revenue ($)')
