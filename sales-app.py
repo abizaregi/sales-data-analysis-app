@@ -100,44 +100,6 @@ Price_Total = df_selected.groupby('Order Date').sum()['Price Total'].sort_values
 Price_Total = pd.DataFrame(Price_Total)
 st.dataframe(Price_Total)
 
-x = df.drop('Price Total', axis=1)
-y = df['Price Total']
-x_train, x_test, y_train, y_test = train_test_split(x, y)
-
-def evaluate(y_pred, y_true):
-    print(f'MAE : {mean_absolute_error(y_true, y_pred)}')
-    print(f'MAE : {mean_squared_error(y_true, y_pred)}')
-
-lr = LinearRegression()
-lr.fit(x_train, y_train)
-st.write(evaluate(lr.predict(x_test), y_test))
-
-df_predict = pd.read_csv('Harian Bulan Januari.csv').drop('Unnamed: 0', axis=1)
-df_result = pd.Series(lr.predict(df_predict), pd.date_range(start='1-1-2020', end='31-01-2020', freq='1D'))
-st.dataframe(df_result)
-
-plt.figure(figsize=(10,8))
-plt.plot(np.arange(29, 61), df['Price Total'].iloc[-1:].append(np.log(df_result)), label='Prediksi (log)')
-plt.plot(np.arange(29, 61), df['Price Total'].iloc[-1:].append(df_result), label='Prediksi')
-plt.plot(np.arange(30), df['Price Total'].iloc[-30:].to_list(), label='Data Actual')
-plt.ylabel('Pendapatan ($)')
-plt.grid()
-plt.legend()
-plt.show()
-st.pyplot()
-st.set_option('deprecation.showPyplotGlobalUse', False)
-
-plt.figure(figsize=(10,8))
-df['Price Total'].append(np.log(df_result)).plot(label='Prediksi (log)')
-df['Price Total'].append(df_result).plot(label='Prediksi')
-df['Price Total'].plot(label='Data Actual')
-plt.ylabel('Pendapatan ($)')
-plt.grid()
-plt.legend()
-plt.show()
-st.pyplot()
-st.set_option('deprecation.showPyplotGlobalUse', False)
-
 def split_sequence(sequence, n_steps=3):
     sequence = list(sequence)
     X, Y = list(), list()
@@ -160,6 +122,7 @@ test_data = df['Price Total'].iloc[250:]
 x_train, y_train = split_sequence(train_data)
 x_test, y_test = split_sequence(test_data)
 
+st.dataframe(x_test)
 model = keras.Sequential([
     keras.layers.LSTM(64, input_shape=(3,1,), activation='relu', return_sequences=True),
     keras.layers.LSTM(64, activation='relu'),
