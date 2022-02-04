@@ -79,9 +79,8 @@ Qty = df_selected.groupby('Product').sum()['Quantity Ordered'].sort_values(ascen
 Qty = pd.DataFrame(Qty)
 st.dataframe(Qty)
 
+st.write('''###Revenue per Days###''')
 df = pd.read_csv('Sales Harian 2019.csv', sep=",")
-st.write(''' ###
-Revenue per Days ###''')
 plt.figure(figsize=(10, 8))
 df['Price Total'].plot()
 plt.ylabel('Revenue ($)')
