@@ -80,7 +80,7 @@ df_city = df_selected.groupby('Purchase Address City').sum()[['Quantity Ordered'
 df_city['Top 3 Product'] = list(map(cityProduct, df_city.index))
 st.dataframe(df_city)
 
-Qty = df_selected.groupby('Product').sum()['Quantity Ordered'].sort_values(ascending=False).head()
+Qty = df_selected.groupby('Product').sum()['Quantity Ordered'].sort_values(ascending=False)
 Qty = pd.DataFrame(Qty)
 st.dataframe(Qty)
 
@@ -121,6 +121,8 @@ test_data = df['Price Total'].iloc[250:]
 
 x_train, y_train = split_sequence(train_data)
 x_test, y_test = split_sequence(test_data)
+
+df_test = df.groupby('Order Date').sum()['x_test'].sort_values(ascending=False).head()
 df_test = pd.DataFrame(x_test)
 st.dataframe(df_test)
 model = keras.Sequential([
