@@ -1,5 +1,7 @@
 import streamlit as st
 import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
 import base64
 from datetime import datetime
 
@@ -34,6 +36,48 @@ st.markdown(filedownload(df_selected), unsafe_allow_html=True)
 
 df_selected['Profit'] = df_selected['UnitPrice']-df_selected['UnitCost']
 df_selected['Revenue'] = df_selected['Profit']*df_selected['OrderQuantity']
+
+st.write("""
+#### Distribution of Channel
+""")
+sns.countplot(x=df_selected['Channel'])
+st.pyplot()
+
+df_price = df_selected.groupby('Channel').sum()[['OrderQuantity','UnitPrice']]
+df_price.sort_values(by=['UnitPrice'], ascending=False).head()
+st.dataframe(df_price)
+
+st.write("""
+#### Unit Price per Channel ###
+""")
+price = df_selected.groupby('Channel').sum()['UnitPrice'].round(2)
+price.plot(kind='bar', x='Channel', y='UnitPrice', figsize=(10,5), color='darkblue')
+plt.xticks(rotation=0)
+ax = plt.axes()
+ax.yaxis.grid(linestyle='--')
+plt.legend()
+plt.show()
+st.pyplot()
+
+df_series = df_selected.groupby('Month-Year').sum()[['OrderQuantity','UnitPrice']]
+df_series = df_series.iloc[:-1]
+st.dataframe(df_series.sort_values(by=['UnitPrice'], ascending=False).head(10)))
+
+st.write("""
+#### Unit Price per Month-Year ###
+""")
+sales = df_selected.groupby('Month-Year').sum()['UnitPrice'].round(2)
+sales.plot(kind='line', x='Month-Year', y='UnitPrice', figsize=(10,5), color='darkblue', linewidth=3)
+plt.legend()
+plt.grid()
+st.pyplot()
+
+st.write("""
+#### Unit Price per Day ###
+""")
+plt.figure(figsize=(20,12))
+df_selected['UnitPrice'].plot()
+st.pyplot()
 
 st.write("""
 #### Quantity Ordered per Channel
