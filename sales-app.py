@@ -115,7 +115,7 @@ def split_sequence(sequence, n_steps=3):
         Y.append(seq_y)
     def reshape(d):
         d = np.array(d)
-        d = np.reshape(d,(d.shape[0], d.shape[1],1))
+        d = np.reshape(d,(d.shape[0], d.shape[1]))
         return d
     return reshape(X), np.array(Y)
 
