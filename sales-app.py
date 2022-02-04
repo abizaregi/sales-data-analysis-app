@@ -131,12 +131,6 @@ model = keras.Sequential([
 model.compile(loss='mse', optimizer='adam')
 stoping = keras.callbacks.EarlyStopping(monitor='loss', patience=3)
 history = model.fit(x_train, y_train, epochs=100, batch_size=32, callbacks=[stoping], verbose=2)
-plt.plot(history.history['loss'], marker='.')
-plt.xlabel('Epochs')
-plt.ylabel('Error (MSE)')
-plt.grid()
-plt.show()
-st.pyplot()
 
 st.write("""
 #### Prediction vs Actual ###
