@@ -77,7 +77,7 @@ Qty = pd.DataFrame(Qty)
 st.dataframe(Qty)
 
 df = pd.read_csv('Sales Harian 2019.csv', sep=";")
-df = df.drop('Order Date', axis=1, inplace=True)
+
 st.dataframe(df)
 
 st.write('''
