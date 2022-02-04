@@ -34,51 +34,6 @@ def filedownload(df):
 
 st.markdown(filedownload(df_selected), unsafe_allow_html=True)
 
-df_selected['Profit'] = df_selected['UnitPrice']-df_selected['UnitCost']
-df_selected['Revenue'] = df_selected['Profit']*df_selected['OrderQuantity']
-
-st.write("""
-#### Distribution of Channel
-""")
-sns.countplot(x=df_selected['Channel'])
-st.pyplot()
-
-df_price = df_selected.groupby('Channel').sum()[['OrderQuantity','UnitPrice']]
-df_price.sort_values(by=['UnitPrice'], ascending=False).head()
-st.dataframe(df_price)
-
-st.write("""
-#### Unit Price per Channel ###
-""")
-price = df_selected.groupby('Channel').sum()['UnitPrice'].round(2)
-price.plot(kind='bar', x='Channel', y='UnitPrice', figsize=(10,5), color='darkblue')
-plt.xticks(rotation=0)
-ax = plt.axes()
-ax.yaxis.grid(linestyle='--')
-plt.legend()
-plt.show()
-st.pyplot()
-
-df_series = df_selected.groupby('Month-Year').sum()[['OrderQuantity','UnitPrice']]
-df_series = df_series.iloc[:-1]
-st.dataframe(df_series.sort_values(by=['UnitPrice'], ascending=False).head(10))
-
-st.write("""
-#### Unit Price per Month-Year ###
-""")
-sales = df_selected.groupby('Month-Year').sum()['UnitPrice'].round(2)
-sales.plot(kind='line', x='Month-Year', y='UnitPrice', figsize=(10,5), color='darkblue', linewidth=3)
-plt.legend()
-plt.grid()
-st.pyplot()
-
-st.write("""
-#### Unit Price per Day ###
-""")
-plt.figure(figsize=(20,12))
-df_selected['UnitPrice'].plot()
-st.pyplot()
-
 st.write("""
 #### Most Product Sold (by Count) ###
 """)
@@ -89,39 +44,40 @@ plt.axis('off')
 plt.show()
 st.pyplot()
 
-st.write("""
-#### Quantity Ordered per Channel
-""")
-channel1 = df_selected.groupby('Channel').sum()['OrderQuantity'].round(2)
-st.bar_chart(channel1)
-st.write("""
-#### Quantity Ordered per Month-Year
-""")
-series1 = df_selected.groupby('Month-Year').sum()['OrderQuantity'].round(2)
-st.line_chart(series1)
+df_sales = df_selcted.groupby('Product').sum()[['Quantity Ordered', 'Price Total']]
+st.dataframe(df_sales.sort_values(by=['Price Total'], ascending=False).head())
 
-st.write("""
-#### Unit Price and Unit Cost per Channel
-""")
-channel2 = df_selected.groupby('Channel').sum()[['UnitCost','UnitPrice']].round(2)
-st.bar_chart(channel2)
-st.write("""
-#### Unit Price and Unit Cost per Month-Year
-""")
-series2 = df_selected.groupby('Month-Year').sum()[['UnitCost','UnitPrice']].round(2)
-st.line_chart(series2)
+df_month_year = df_selected.groupby('Month-Year').sum()[['Quantity Ordered', 'Price Total']]
+df_month_year = df_month_year.iloc[:-1]
+st.dataframe(df_month_year.sort_values(by=['Price Total'], ascending=False))
 
-st.write("""
-#### Profit and Revenue per Channel
-""")
-channel3 = df_selected.groupby('Channel').sum()[['Profit','Revenue']].round(2)
-st.bar_chart(channel3)
-st.write("""
-#### Profit and Revenue per Month-Year
-""")
-series3 = df_selected.groupby('Month-Year').sum()[['Profit','Revenue']].round(2)
-st.line_chart(series3)
+st.write('''### Price Total per Month-Year''')
+sales = df_selected.groupby('Month-Year').sum()['Price Total'].round(2)
+sales.plot(kind='line', x='Month-Year', y='Price Total', figsize=(12,8))
+plt.legend()
+plt.grid()
 
-st.write("""
-Sum of Profit: 
-""", df_selected['Profit'].sum(), """Sum of Revenue""", df_selected['Revenue'].sum())
+df_selected['Purchase Address City'] = df_selected['Purchase Address'].apply(lambda x: x.split(',')[1][1:])
+
+def cityProduct(city):
+    return ' ,'.join(df['Product'][df['Purchase Address City'] == city].value_counts()[:3].index)
+
+df_city = df_selected.groupby('Purchase Address City').sum()[['Quantity Ordered', 'Price Total']].sort_values(by='Price Total', ascending=False)
+df_city['Top 3 Product'] = list(map(cityProduct, df_city.index))
+st.dataframe(df_city.head())
+
+Qty = df_selected.groupby('Product').sum()['Quantity Ordered'].sort_values(ascending=False).head()
+Qty = pd.DataFrame(Qty)
+st.dataframe(Qty)
+
+
+df_selected['Order Date'] = df_selected['Order Date'].dt.date.astype(np.str)
+df_string_date = df_selected.groupby('Order Date').sum().iloc[:-1]
+
+st.write('''### Sales per Days''')
+plt.figure(figsize=(10, 8))
+df_string_date['Price Total'].plot()
+plt.ylabel('Pendapatan ($)')
+plt.grid()
+plt.show()
+st.pyplot()
