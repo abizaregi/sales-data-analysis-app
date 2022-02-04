@@ -61,7 +61,7 @@ st.pyplot()
 
 df_series = df_selected.groupby('Month-Year').sum()[['OrderQuantity','UnitPrice']]
 df_series = df_series.iloc[:-1]
-st.dataframe(df_series.sort_values(by=['UnitPrice'], ascending=False).head(10)))
+st.dataframe(df_series.sort_values(by=['UnitPrice'], ascending=False).head(10))
 
 st.write("""
 #### Unit Price per Month-Year ###
@@ -77,6 +77,16 @@ st.write("""
 """)
 plt.figure(figsize=(20,12))
 df_selected['UnitPrice'].plot()
+st.pyplot()
+
+st.write("""
+#### Most Product Sold (by Count) ###
+""")
+wordcloud = WordCloud(max_font_size=50, max_words=100, background_color='white').generate(' '.join(df_selected['Product']))
+plt.subplots(figsize=(10,8))
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis('off')
+plt.show()
 st.pyplot()
 
 st.write("""
