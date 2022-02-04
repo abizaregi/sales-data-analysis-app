@@ -4,6 +4,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import base64
 from datetime import datetime
+from wordcloud import WordCloud
 
 st.title('Sales Data Analysis - Application')
 
