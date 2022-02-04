@@ -24,7 +24,14 @@ df_selected = df[df['Month-Year'].isin(selected_month)]
 st.header('Display Data Selected in Sidebar')
 st.write('Data Shape: ' + str(df_selected.shape[0]) + ' rows and ' + str(df_selected.shape[1]) + ' columns.')
 st.dataframe(df_selected)
+df_selected['Order Date'] = pd.to_datetime(df_selected['Order Date'])
+col_int = ['Price Each', 'Quantity Ordered']
 
+for col in col_int:
+    df_selected[col] = pd.to_numeric(df_selected[col])
+for col in ['Product', 'Purchase Address']:
+    df_selected[col] = df_selected[col].astype(np.str)
+    
 def filedownload(df):
     csv = df.to_csv(index=False)
     b64 = base64.b64encode(csv.encode()).decode()  # strings <-> bytes conversions
