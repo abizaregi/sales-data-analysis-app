@@ -55,11 +55,7 @@ st.dataframe(df_sales.sort_values(by=['Quantity Ordered'], ascending=False).head
 
 st.write('''### Price Total per Month-Year''')
 sales = df_selected.groupby('Month-Year').sum()['Price Total'].round(2)
-sales.plot(kind='line', x='Month-Year', y='Price Total', figsize=(12,8))
-plt.legend()
-plt.grid()
-st.pyplot()
-st.set_option('deprecation.showPyplotGlobalUse', False)
+st.line_chart(sales)
 
 df_month_year = df_selected.groupby('Month-Year').sum()[['Quantity Ordered', 'Price Total']]
 df_month_year = df_month_year.iloc[:-1]
