@@ -83,6 +83,6 @@ plt.show()
 st.pyplot()
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
-Price_Total = df_selected.groupby('Order Date')['Price Total'].sort_values(ascending=False).head()
+Price_Total = df_selected.groupby('Order Date').sum()['Price Total'].sort_values(ascending=False)
 Price_Total = pd.DataFrame(Price_Total)
 st.dataframe(Price_Total)
