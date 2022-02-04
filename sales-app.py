@@ -73,7 +73,7 @@ Qty = pd.DataFrame(Qty)
 st.dataframe(Qty)
 
 df = pd.read_csv('Sales Harian 2019.csv', sep=",")
-st.write('''
+st.write(''' ###
 Revenue per Days''')
 plt.figure(figsize=(10, 8))
 df['Price Total'].plot()
@@ -83,4 +83,6 @@ plt.show()
 st.pyplot()
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
-
+Price_Total = df_selected.groupby('Order Date')['Price Total'].sort_values(ascending=False).head()
+Price_Total = pd.DataFrame(Price_Total)
+st.dataframe(Price_Total)
