@@ -102,10 +102,27 @@ Price_Total = df_selected.groupby('Order Date').sum()['Price Total'].sort_values
 Price_Total = pd.DataFrame(Price_Total)
 st.dataframe(Price_Total)
 
-x = df.drop('Price Total', axis=1)
-y = df['Price Total']
-x_train, x_test, y_train, y_test = train_test_split(x, y)
+def split_sequence(sequence, n_steps=3):
+    sequence = list(sequence)
+    X, Y = list(), list()
+    for i in range(len(sequence)):
+        end_ix = i + n_steps
+        if end_ix > len(sequence)-1:
+            break
+        seq_x, seq_y = sequence[i:end_ix], sequence[end_ix]
+        X.append(seq_x)
+        Y.append(seq_y)
+    def reshape(d):
+        d = np.array(d)
+        d = np.reshape(d,(d.shape[0], d.shape[1],1))
+        return d
+    return reshape(X), np.array(Y)
 
+train_data = df['Price Total'].iloc[:250]
+test_data = df['Price Total'].iloc[250:]
+
+x_train, y_train = split_sequence(train_data)
+x_test, y_test = split_sequence(test_data)
 st.write('''###Data Prediksi vs Data Actual###''')
 plt.figure(figsize=(10,8))
 plt.plot(model.predict(x_test), label='Prediction')
