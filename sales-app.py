@@ -115,7 +115,7 @@ def split_sequence(sequence, n_steps=3):
         Y.append(seq_y)
     def reshape(d):
         d = np.array(d)
-        d = np.reshape(d,(d.shape[0], d.shape[1]))
+        d = np.reshape(d,(d.shape[0], d.shape[1],1))
         return d
     return reshape(X), np.array(Y)
 
@@ -124,6 +124,15 @@ test_data = df['Price Total'].iloc[250:]
 
 x_train, y_train = split_sequence(train_data)
 x_test, y_test = split_sequence(test_data)
+
+model = keras.Sequential([
+    keras.layers.LSTM(64, input_shape=(3,1,), activation='relu', return_sequences=True),
+    keras.layers.LSTM(64, activation='relu'),
+    keras.layers.Dense(1)
+])
+
+model.compile(loss='mse', optimizer='adam')
+
 st.write('''###Data Prediksi vs Data Actual###''')
 plt.figure(figsize=(10,8))
 plt.plot(model.predict(x_test), label='Prediction')
