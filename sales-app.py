@@ -46,10 +46,7 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 
 df_sales = df_selected.groupby('Product').sum()[['Quantity Ordered', 'Price Total']]
 st.dataframe(df_sales.sort_values(by=['Price Total'], ascending=False).head())
-
-df_month_year = df_selected.groupby('Month-Year').sum()[['Quantity Ordered', 'Price Total']]
-df_month_year = df_month_year.iloc[:-1]
-st.dataframe(df_month_year.sort_values(by=['Price Total'], ascending=False))
+st.dataframe(df_sales.sort_values(by=['Quantity Ordered'], ascending=False).head())
 
 st.write('''### Price Total per Month-Year''')
 sales = df_selected.groupby('Month-Year').sum()['Price Total'].round(2)
@@ -59,19 +56,24 @@ plt.grid()
 st.pyplot()
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
+df_month_year = df_selected.groupby('Month-Year').sum()[['Quantity Ordered', 'Price Total']]
+df_month_year = df_month_year.iloc[:-1]
+st.dataframe(df_month_year.sort_values(by=['Price Total'], ascending=False))
+
+
 df_selected['Purchase Address City'] = df_selected['Purchase Address'].apply(lambda x: x.split(',')[1][1:])
 
 def cityProduct(city):
     return ' ,'.join(df['Product'][df['Purchase Address City'] == city].value_counts()[:3].index)
 
-df_city = df_selected.groupby('Purchase Address City').sum()[['Quantity Ordered', 'Price Total']].sort_values(by='Price Total', ascending=False)
-df_city['Top 3 Product'] = list(map(cityProduct, df_city.index))
-st.dataframe(df_city)
-
 plot_price = df_selected.groupby('Purchase Address City').sum()['Price Total']
 st.bar_chart(plot_price)
 plot_qty = df_selected.groupby('Purchase Address City').sum()['Quantity Ordered']
 st.bar_chart(plot_qty)
+
+df_city = df_selected.groupby('Purchase Address City').sum()[['Quantity Ordered', 'Price Total']].sort_values(by='Price Total', ascending=False)
+df_city['Top 3 Product'] = list(map(cityProduct, df_city.index))
+st.dataframe(df_city)
 
 Qty = df_selected.groupby('Product').sum()['Quantity Ordered'].sort_values(ascending=False).head()
 Qty = pd.DataFrame(Qty)
